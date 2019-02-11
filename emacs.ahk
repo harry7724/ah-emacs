@@ -1,4 +1,4 @@
-;;;
+﻿;;;
 ;;; AutoHotkey用Emacs風キーバインド設定スクリプト
 ;;; LastUpdate: 2019/02/11
 ;;;
@@ -36,6 +36,9 @@ GroupAdd IgnoreList, ahk_class PuTTY
 ;--------------------------------------------------------------------;
 ; 基本設定
 ;--------------------------------------------------------------------;
+;; 右Alt+Enterでマウスクリック
+RAlt & Enter::MouseClick, Left          ;left button click
+
 ;; Emacs風ホットキーの設定
 #IfWinNotActive ahk_group IgnoreList
 RAlt::EmacsSend("{LWin}")               ;windows key

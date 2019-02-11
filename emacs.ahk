@@ -1,10 +1,10 @@
-;;;
-;;; AutoHotkey用Emacs風キーバインド設定スクリプト
+﻿;;;
+;;; Emacs key bind script for AutoHotKey
 ;;; LastUpdate: 2019/02/11
 ;;;
 
 ;--------------------------------------------------------------------;
-; 初期設定
+; Initial Settings
 ;--------------------------------------------------------------------;
 #NoEnv
 #SingleInstance force
@@ -15,13 +15,13 @@
 gEmacsShift := False
 gEmacsTwoStroke := False
 
-;; 無変換をCtrlに変換
+;; MuHenkan -> Ctrl
 vk1D::Ctrl
 
 ;--------------------------------------------------------------------;
-; アプリケーション設定
+; Application Specific Settings
 ;--------------------------------------------------------------------;
-;; すべてのホットキーを無効にするアプリケーション
+;; without hotkey
 GroupAdd IgnoreList, ahk_class PuTTY
 
 ; Outlook
@@ -29,12 +29,12 @@ GroupAdd IgnoreList, ahk_class PuTTY
 ^s::EmacsSend("{F3}")                   ;search mail
 
 ;--------------------------------------------------------------------;
-; 基本設定
+; Common Settings
 ;--------------------------------------------------------------------;
-;; 右Alt+Enterでマウスクリック
+;; Right Alt + Enter -> Left Mouse Click
 RAlt & Enter::MouseClick, Left          ;left button click
 
-;; Emacs風ホットキーの設定
+;; Emacs hotkey
 #IfWinNotActive ahk_group IgnoreList
 RAlt::EmacsSend("{LWin}")               ;windows key
 <+Space::EmacsSend("!{sc029}")          ;toggle ime
@@ -96,7 +96,7 @@ EmacsInput()
 {
     global gEmacsTwoStroke
 
-    ;; ２ストローク目の  C-c, C-x, ESC 対処
+    ;; C-c, C-x and ESC input at second stroke
     if (gEmacsTwoStroke)
     {
         if (A_ThisHotkey == "ESC")

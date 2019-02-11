@@ -1,4 +1,4 @@
-﻿;;;
+;;;
 ;;; AutoHotkey用Emacs風キーバインド設定スクリプト
 ;;; LastUpdate: 2019/02/11
 ;;;
@@ -23,11 +23,6 @@ vk1D::Ctrl
 ;--------------------------------------------------------------------;
 ;; すべてのホットキーを無効にするアプリケーション
 GroupAdd IgnoreList, ahk_class PuTTY
-
-;; 個別のホットキーを設定するアプリケーション
-; IE
-#IfWinActive ahk_class IEFrame
-^w::EmacsSend("^w")                     ;close tab
 
 ; Outlook
 #IfWinActive ahk_class rctrl_renwnd32
@@ -59,6 +54,7 @@ RAlt::EmacsSend("{LWin}")               ;windows key
 ^o::EmacsSend("{END}{Enter}{Up}")       ;open line
 ^p::EmacsSend("{Up}", gEmacsShift)      ;previous line
 ^s::EmacsSend("^f")                     ;isearch forward
+^t::EmacsSend("^w")                     ;crose tab
 ^v::EmacsSend("{PgDn}", gEmacsShift)    ;scroll down
 !v::EmacsSend("{PgUp}", gEmacsShift)    ;scroll up
 ^w::EmacsSend("^x")                     ;kill region

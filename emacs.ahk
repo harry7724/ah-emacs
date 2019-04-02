@@ -15,28 +15,21 @@
 gEmacsShift := False
 gEmacsTwoStroke := False
 
-;; MuHenkan -> Ctrl
-vk1D::Ctrl
-
 ;--------------------------------------------------------------------;
-; Application Specific Settings
+; Ignore Hotkey Applications
 ;--------------------------------------------------------------------;
-;; without hotkey
 GroupAdd IgnoreList, ahk_class PuTTY
 
-; Outlook
-#IfWinActive ahk_class rctrl_renwnd32
-^s::EmacsSend("{F3}")                   ;search mail
-
 ;--------------------------------------------------------------------;
-; Common Settings
+; Hotkey Settings
 ;--------------------------------------------------------------------;
-;; Right Alt + Enter -> Left Mouse Click
-RAlt & Enter::MouseClick, Left          ;left button click
+;; Common hotkey
+vk1D::Ctrl                              ; MuHenkan -> Ctrl
+>+Enter::MouseClick, Left               ;left button click
+RAlt::EmacsSend("{LWin}")               ;windows key
 
 ;; Emacs hotkey
 #IfWinNotActive ahk_group IgnoreList
-RAlt::EmacsSend("{LWin}")               ;windows key
 <+Space::EmacsSend("!{sc029}")          ;toggle ime
 ^Space::gEmacsShift := !gEmacsShift     ;toggle region
 ^a::EmacsSend("{Home}", gEmacsShift)    ;beginning of line
@@ -64,6 +57,13 @@ RAlt::EmacsSend("{LWin}")               ;windows key
 ^/::EmacsSend("^z")                     ;undo
 !<::EmacsSend("^{HOME}", gEmacsShift)   ;beginning of buffer
 !>::EmacsSend("^{END}", gEmacsShift)    ;end of buffer
+
+;--------------------------------------------------------------------;
+; Application Specific Settings
+;--------------------------------------------------------------------;
+; Outlook
+#IfWinActive ahk_class rctrl_renwnd32
+^s::EmacsSend("{F3}")                   ;search mail
 
 #UseHook Off
 
@@ -100,10 +100,13 @@ EmacsInput()
     if (gEmacsTwoStroke)
     {
         if (A_ThisHotkey == "ESC")
-            Send {ESC}
+        {
+            return "{ESC}"
+        }
         else
-            Send %A_ThisHotkey%
-        return
+        {
+            return %A_ThisHotkey%
+        }
     }
 
     gEmacsTwoStroke := True
@@ -113,11 +116,17 @@ EmacsInput()
     Transform code, Asc, %key%
 
     if (ErrorLevel == "EndKey:Escape")
+    {
         return "{ESC}"
+    }
     else if (ErrorLevel == "Timeout")
-        return
+    {
+        return "{ESC}"
+    }
     else if (code == 0)
+    {
         return "^@"
+    }
     else if (code > 0 && code <= 26)
     {
         code := code + 96
@@ -126,9 +135,13 @@ EmacsInput()
         return %key%
     }
     else if (code == 27)
+    {
         return "{ESC}"
-    else
+    }
+    else{
         return %key%
+    }
+
 }
 
 ;--------------------------------------------------------------------;
@@ -140,9 +153,13 @@ EmacsCtrlX()
     key := EmacsInput()
 
     if (key == "^s")
+    {
         key = ^s                          ;save buffer
+    }
     else if (key == "^c")
+    {
         key = !{F4}                       ;close window
+    }
     else if (key == "m")
     {
         WinActivate, ahk_class rctrl_renwnd32
@@ -150,5 +167,6 @@ EmacsCtrlX()
     }
 
     Send %key%
+    return
 }
 ;--- end of file. ---------------------------------------------------;
